@@ -9,13 +9,14 @@ using ProjetoSocialSolutions.Data;
 using ProjetoSocialSolutions.Models;
 using ProjetoSocialSolutions.Services;
 using ProjetoSocialSolutions.Models.ViewModel;
+using ProjetoSocialSolutions.Services.Exceptions;
 
 namespace ProjetoSocialSolutions.Controllers
 {
     public class ClientesController : Controller
     {
         private readonly ClienteService _clienteService;
-        private readonly ImovelService  _imovelService;
+        private readonly ImovelService _imovelService;
 
         public ClientesController(ClienteService clienteService, ImovelService imovelService)
         {
@@ -59,7 +60,7 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         //// GET: Clientes/Details/5
-        public IActionResult Details (int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -77,83 +78,76 @@ namespace ProjetoSocialSolutions.Controllers
 
 
         //// GET: Clientes/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null || _context.Clientes == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var clientes = await _context.Clientes.FindAsync(id);
-        //    if (clientes == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(clientes);
-        //}
+            var obj = _clienteService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            List<Imovel> imovels = _imovelService.FindAll();
+            ClientesFormViewModel viewModel = new ClientesFormViewModel { Clientes = obj, Imovels = imovels };
+            return View(viewModel);
+        }
 
         //// POST: Clientes/Edit/5
         //// To protect from overposting attacks, enable the specific properties you want to bind to.
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Cpf,Status")] Clientes clientes)
-        //{
-        //    if (id != clientes.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(clientes);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ClientesExists(clientes.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(clientes);
-        //}
-
-        //// GET: Clientes/Delete/5
-        public IActionResult Delete(int? id)
-        {
-                if (id == null)
-                {
-                    return NotFound();
-                }
-                var obj = _clienteService.FindById(id.Value);
-                 if (obj == null)
-                {
-                    return NotFound();
-                }
-                return View(obj);
-        }
-
-        //// POST: Clientes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult Edit(int id, Clientes clientes)
         {
-            _clienteService.Remove(id);            
-            return RedirectToAction(nameof(Index));            
-        }
+            if (id != clientes.Id)
+            {
+                return NotFound();
+            }
 
-        //private bool ClientesExists(int id)
-        //{
-        //    return (_clienteService.?.Any(e => e.Id == id)).GetValueOrDefault();
-        //}
+            try
+            {
+                _clienteService.Update(clientes);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            } catch(DbConcurrencyException)
+            {
+                return BadRequest();
+            }
     }
+
+    //// GET: Clientes/Delete/5
+    public IActionResult Delete(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+        var obj = _clienteService.FindById(id.Value);
+        if (obj == null)
+        {
+            return NotFound();
+        }
+        return View(obj);
+    }
+
+    //// POST: Clientes/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        _clienteService.Remove(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    //private bool ClientesExists(int id)
+    //{
+    //    return (_clienteService.?.Any(e => e.Id == id)).GetValueOrDefault();
+    //}
+}
 }

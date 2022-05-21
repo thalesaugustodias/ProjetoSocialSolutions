@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjetoSocialSolutions.Data;
 using ProjetoSocialSolutions.Models;
+using ProjetoSocialSolutions.Services.Exceptions;
 
 namespace ProjetoSocialSolutions.Services
 {
@@ -35,6 +36,24 @@ namespace ProjetoSocialSolutions.Services
             var obj = _context.Clientes.Find(id);
             _context.Clientes.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Clientes obj)
+        {
+            if (!_context.Clientes.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id não encontrado");
+            }
+
+            try { 
+            _context.Update(obj);
+            _context.SaveChanges();
+
+            } catch(DbUpdateConcurrencyException e)
+            
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }
