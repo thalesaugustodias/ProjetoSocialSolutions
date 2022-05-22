@@ -7,6 +7,7 @@ namespace ProjetoSocialSolutions.Models
     [Table("Imovel")]
     public class Imovel
     {
+       
         [Display(Name ="Código")]
         [Column("Id")]
         public int ImovelId { get; set; }

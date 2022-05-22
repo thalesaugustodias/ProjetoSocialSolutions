@@ -12,6 +12,7 @@ namespace ProjetoSocialSolutions.Models
 
     public class Clientes
     {
+        
         [Display(Name = "Código")]
         [Column("Id")]
         public int Id { get; set; }

@@ -10,6 +10,7 @@ using ProjetoSocialSolutions.Models;
 using ProjetoSocialSolutions.Services;
 using ProjetoSocialSolutions.Models.ViewModel;
 using ProjetoSocialSolutions.Services.Exceptions;
+using System.Diagnostics;
 
 namespace ProjetoSocialSolutions.Controllers
 {
@@ -28,12 +29,12 @@ namespace ProjetoSocialSolutions.Controllers
         public IActionResult Index()
         {
             var list = _clienteService.FindAll();
-            return View(list);                      
+            return View(list);
         }
 
         public IActionResult Create()
         {
-            var imovel = _imovelService.FindAll();           
+            var imovel = _imovelService.FindAll();
             var viewModel = new ClientesFormViewModel { Imovels = imovel };
             return View(viewModel);
         }
@@ -61,12 +62,12 @@ namespace ProjetoSocialSolutions.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
             var obj = _clienteService.FindById(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             return View(obj);
         }
@@ -79,13 +80,13 @@ namespace ProjetoSocialSolutions.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
             var obj = _clienteService.FindById(id.Value);
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
             List<Imovel> imovels = _imovelService.FindAll();
             ClientesFormViewModel viewModel = new ClientesFormViewModel { Clientes = obj, Imovels = imovels };
@@ -93,15 +94,13 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         //// POST: Clientes/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Clientes clientes)
         {
             if (id != clientes.Id)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não correspondente" });
             }
 
             try
@@ -109,42 +108,45 @@ namespace ProjetoSocialSolutions.Controllers
                 _clienteService.Update(clientes);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (ApplicationException e)
             {
-                return NotFound();
-            } catch(DbConcurrencyException)
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+
+            }            
+        }
+
+        //// GET: Clientes/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
-    }
-
-    //// GET: Clientes/Delete/5
-    public IActionResult Delete(int? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
+            var obj = _clienteService.FindById(id.Value);
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+            return View(obj);
         }
-        var obj = _clienteService.FindById(id.Value);
-        if (obj == null)
+
+        //// POST: Clientes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
         {
-            return NotFound();
+            _clienteService.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
-        return View(obj);
-    }
 
-    //// POST: Clientes/Delete/5
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public IActionResult DeleteConfirmed(int id)
-    {
-        _clienteService.Remove(id);
-        return RedirectToAction(nameof(Index));
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
+        }
     }
-
-    //private bool ClientesExists(int id)
-    //{
-    //    return (_clienteService.?.Any(e => e.Id == id)).GetValueOrDefault();
-    //}
-}
 }

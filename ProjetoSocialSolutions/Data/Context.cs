@@ -11,14 +11,14 @@ namespace ProjetoSocialSolutions.Data
         }
 
         public DbSet<Clientes> Clientes { get; set; }
-
+        public DbSet<Imovel> Imovel { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Clientes>()
                 .HasIndex(p => new { p.Cpf, p.Email })
                 .IsUnique(true);
         }
-        public DbSet<Imovel> Imovel { get; set; }
 
     }
 }
