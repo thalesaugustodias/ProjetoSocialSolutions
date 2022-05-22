@@ -1,4 +1,5 @@
-﻿using ProjetoSocialSolutions.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoSocialSolutions.Data;
 using ProjetoSocialSolutions.Models;
 
 namespace ProjetoSocialSolutions.Services
@@ -12,9 +13,9 @@ namespace ProjetoSocialSolutions.Services
             _context = context;
         }
 
-        public List<Imovel> FindAll()
+        public async Task <List<Imovel>> FindAllAsync()
         {
-            return _context.Imovel.Where(x => x.Status == 0).OrderBy(x => x.Descricao).ToList();
+            return await _context.Imovel.Where(x => x.Status == 0).OrderBy(x => x.Descricao).ToListAsync();
         }
     }
 }

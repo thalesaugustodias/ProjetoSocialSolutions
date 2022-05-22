@@ -14,9 +14,9 @@ namespace ProjetoSocialSolutions.Services
             _context = context;
         }
 
-        public List<Clientes> FindAll()
+        public async Task <List<Clientes>> FindAllAsync()
         {
-            return _context.Clientes.OrderBy(x => x.Name).ToList();
+            return await _context.Clientes.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task InsertAsync(Clientes obj)
@@ -26,28 +26,30 @@ namespace ProjetoSocialSolutions.Services
            await _context.SaveChangesAsync();
         }
 
-        public Clientes FindById(int id)
+        public async Task <Clientes> FindByIdAsync(int id)
         {
-            return _context.Clientes.Include(obj => obj.Imovel).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Clientes.Include(obj => obj.Imovel).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Clientes.Find(id);
+            var obj = await _context.Clientes.FindAsync(id);
             _context.Clientes.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Clientes obj)
+        public async Task UpdateAsync(Clientes obj)
         {
-            if (!_context.Clientes.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Clientes.AnyAsync(x => x.Id == obj.Id);
+
+            if (!hasAny)
             {
                 throw new NotFoundException("Id não encontrado");
             }
 
             try { 
-            _context.Update(obj);
-            _context.SaveChanges();
+             _context.Update(obj);
+            await _context.SaveChangesAsync();
 
             } catch(DbUpdateConcurrencyException e)
             

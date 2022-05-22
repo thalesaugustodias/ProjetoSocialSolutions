@@ -26,15 +26,15 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         // GET: Clientes
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            var list = _clienteService.FindAll();
+            var list = _clienteService.FindAllAsync();
             return View(list);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult>  Create()
         {
-            var imovel = _imovelService.FindAll();
+            var imovel = await _imovelService.FindAllAsync();
             var viewModel = new ClientesFormViewModel { Imovels = imovel };
             return View(viewModel);
         }
@@ -45,31 +45,23 @@ namespace ProjetoSocialSolutions.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var imovel = _imovelService.FindAll();
+                var imovel = await _imovelService.FindAllAsync();
                 var viewModel = new ClientesFormViewModel { Clientes = clientes, Imovels = imovel };
                 return View(clientes);
             }
             await _clienteService.InsertAsync(clientes);
 
-            return RedirectToAction(nameof(Index));
-
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(clientes);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(clientes);
+            return RedirectToAction(nameof(Index));          
         }
 
         //// GET: Clientes/Details/5
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
-            var obj = _clienteService.FindById(id.Value);
+            var obj = await _clienteService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
@@ -90,12 +82,12 @@ namespace ProjetoSocialSolutions.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
-            var obj = _clienteService.FindById(id.Value);
+            var obj = await _clienteService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
-            List<Imovel> imovels = _imovelService.FindAll();
+            List<Imovel> imovels = await _imovelService.FindAllAsync();
             ClientesFormViewModel viewModel = new ClientesFormViewModel { Clientes = obj, Imovels = imovels };
             return View(viewModel);
         }
@@ -103,11 +95,11 @@ namespace ProjetoSocialSolutions.Controllers
         //// POST: Clientes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Clientes clientes)
+        public async Task<IActionResult> Edit(int id, Clientes clientes)
         {
             if (!ModelState.IsValid)
             {
-                var imovel = _imovelService.FindAll();
+                var imovel = await _imovelService.FindAllAsync();
                 var viewModel = new ClientesFormViewModel { Clientes= clientes, Imovels = imovel };
                 return View(clientes);
             }
@@ -118,7 +110,7 @@ namespace ProjetoSocialSolutions.Controllers
 
             try
             {
-                _clienteService.Update(clientes);
+                 await _clienteService.UpdateAsync(clientes);
                 return RedirectToAction(nameof(Index));
             }
             catch (ApplicationException e)
@@ -129,13 +121,13 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         //// GET: Clientes/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
-            var obj = _clienteService.FindById(id.Value);
+            var obj = await _clienteService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
@@ -146,9 +138,9 @@ namespace ProjetoSocialSolutions.Controllers
         //// POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _clienteService.Remove(id);
+            await _clienteService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
