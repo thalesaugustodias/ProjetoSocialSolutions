@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoSocialSolutions.Data;
 using ProjetoSocialSolutions.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,20 @@ builder.Services.AddDbContext<Context>
 builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<ImovelService>();
 
+
+    
+
 var app = builder.Build();
+
+var ptBr = new CultureInfo("pt-BR");
+var localizacao = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(ptBr),
+    SupportedCultures = new List<CultureInfo> { ptBr },
+    SupportedUICultures = new List<CultureInfo> { ptBr }
+};
+app.UseRequestLocalization(localizacao);
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

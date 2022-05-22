@@ -21,10 +21,9 @@ namespace ProjetoSocialSolutions.Models
         [Column("Nome")]
         public string Name { get; set; }
 
-        
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
-        [Column("Email")]
-       
+        [Column("Email")]       
         public string Email { get; set; }
 
         [Display(Name = "Cpf")]

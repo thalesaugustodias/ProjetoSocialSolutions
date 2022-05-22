@@ -19,7 +19,7 @@ namespace ProjetoSocialSolutions.Models
         [Display(Name = "Descrição")]
         [Column("Descricao")]
         public string Descricao { get; set; }
-
+        [DisplayFormat(DataFormatString="{0:F2}")]
         [Display(Name = "Valor")]
         [Column("Valor")]
         public double Valor { get; set; }
