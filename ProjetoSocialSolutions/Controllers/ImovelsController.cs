@@ -56,7 +56,7 @@ namespace ProjetoSocialSolutions.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ImovelId,Descricao,Valor,Status")] Imovel imovel)
+        public async Task<IActionResult> Create([Bind("ImovelId,TipoImovel,Descricao,Valor,Status")] Imovel imovel)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace ProjetoSocialSolutions.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImovelId,Descricao,Valor,Status")] Imovel imovel)
+        public async Task<IActionResult> Edit(int id, [Bind("ImovelId,TipoImovel,Descricao,Valor,Status")] Imovel imovel)
         {
             if (id != imovel.ImovelId)
             {

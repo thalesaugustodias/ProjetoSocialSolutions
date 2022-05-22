@@ -1,10 +1,15 @@
-﻿using ProjetoSocialSolutions.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoSocialSolutions.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjetoSocialSolutions.Models
 {
     [Table("Clientes")]
+
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(Cpf), IsUnique = true)]
+
     public class Clientes
     {
         [Display(Name = "Código")]
@@ -15,8 +20,10 @@ namespace ProjetoSocialSolutions.Models
         [Column("Nome")]
         public string Name { get; set; }
 
+        
         [Display(Name = "Email")]
         [Column("Email")]
+       
         public string Email { get; set; }
 
         [Display(Name = "Cpf")]
@@ -28,6 +35,7 @@ namespace ProjetoSocialSolutions.Models
         public StatusClientes Status { get; set; }
 
         public int ImovelId { get; set; }
+
         public Imovel Imovel { get; set; }
 
         public Clientes()
@@ -39,7 +47,7 @@ namespace ProjetoSocialSolutions.Models
             Id = id;
             Name = name;
             Email = email;
-            Cpf = cpf.ToString();
+            Cpf = cpf;
             Status = status;
             Imovel = imovel;
         }

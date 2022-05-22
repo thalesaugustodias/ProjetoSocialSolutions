@@ -4,5 +4,6 @@
     {
         public Clientes Clientes { get; set; }
         public ICollection<Imovel> Imovels { get; set; }
+
     }
 }

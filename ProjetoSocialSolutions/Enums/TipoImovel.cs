@@ -2,9 +2,9 @@
 
 namespace ProjetoSocialSolutions.Enums
 {
-    public enum StatusImovel
+    public enum TipoImovel
     {
-        Ativo = 0,       
-        Inativo = 1,
+        Venda = 0,
+        Aluguel = 1,
     }
 }

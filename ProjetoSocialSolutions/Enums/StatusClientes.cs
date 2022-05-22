@@ -1,8 +1,12 @@
-﻿namespace ProjetoSocialSolutions.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjetoSocialSolutions.Enums
 {
-    public enum StatusClientes : int
+    public enum StatusClientes
     {
-        Ativo = 0,
-        Inativo = 1,
+        [Display(Name = "Cliente Ativo")]
+        Ativo,
+        [Display(Name = "Cliente Inativo")]
+        Inativo
     }
 }

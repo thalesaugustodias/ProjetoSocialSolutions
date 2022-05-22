@@ -42,8 +42,7 @@ namespace ProjetoSocialSolutions.Migrations
                         name: "FK_Clientes_Imovel_ImovelId",
                         column: x => x.ImovelId,
                         principalTable: "Imovel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

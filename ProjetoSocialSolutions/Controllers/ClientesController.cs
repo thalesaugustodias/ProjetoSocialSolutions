@@ -28,15 +28,12 @@ namespace ProjetoSocialSolutions.Controllers
         public IActionResult Index()
         {
             var list = _clienteService.FindAll();
-            return View(list);
-            //return _context.Clientes != null ? 
-            //            View(await _context.Clientes.ToListAsync()) :
-            //            Problem("Entity set 'Context.Clientes'  is null.");
+            return View(list);                      
         }
 
         public IActionResult Create()
         {
-            var imovel = _imovelService.FindAll();
+            var imovel = _imovelService.FindAll();           
             var viewModel = new ClientesFormViewModel { Imovels = imovel };
             return View(viewModel);
         }

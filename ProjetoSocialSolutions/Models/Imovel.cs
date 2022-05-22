@@ -11,6 +11,10 @@ namespace ProjetoSocialSolutions.Models
         [Column("Id")]
         public int ImovelId { get; set; }
 
+        [Display(Name = "Tipo")]
+        [Column("Tipo")]
+        public TipoImovel TipoImovel { get; set; }
+
         [Display(Name = "Descrição")]
         [Column("Descricao")]
         public string Descricao { get; set; }
@@ -29,12 +33,13 @@ namespace ProjetoSocialSolutions.Models
         {
         }
 
-        public Imovel(int id, string descricao, double valor, StatusImovel status)
+        public Imovel(int id, string descricao, double valor, StatusImovel status, TipoImovel tipoImovel)
         {
             ImovelId = id;
             Descricao = descricao;
             Valor = valor;
             Status = status;
+            TipoImovel = tipoImovel;
         }
     }
 }

@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<ProjetoSocialSolutions.Models.Imovel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Imóveis";
 }
 
-<h1>Index</h1>
+<h2>Imóveis</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Inserir Novo Imóvel</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr class="alert-success">
             <th>
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>

@@ -14,7 +14,7 @@ namespace ProjetoSocialSolutions.Services
 
         public List<Imovel> FindAll()
         {
-            return _context.Imovel.OrderBy(x => x.Descricao).ToList();
+            return _context.Imovel.Where(x => x.Status == 0).OrderBy(x => x.Descricao).ToList();
         }
     }
 }
