@@ -17,15 +17,18 @@ namespace ProjetoSocialSolutions.Models
         [Column("Id")]
         public int Id { get; set; }
 
+        [Required]
         [Display(Name = "Nome")]
         [Column("Nome")]
         public string Name { get; set; }
 
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         [Column("Email")]       
         public string Email { get; set; }
 
+        [Required]
         [Display(Name = "Cpf")]
         [Column("CPF")]
         public string Cpf { get; set; }

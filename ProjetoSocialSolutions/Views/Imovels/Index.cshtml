@@ -13,6 +13,9 @@
     <thead>
         <tr class="alert-success">
             <th>
+                @Html.DisplayNameFor(model => model.TipoImovel)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
             <th>
@@ -21,12 +24,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
+            
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoImovel)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
@@ -36,6 +43,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ImovelId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ImovelId">Details</a> |

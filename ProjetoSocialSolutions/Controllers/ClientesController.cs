@@ -43,7 +43,12 @@ namespace ProjetoSocialSolutions.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Clientes clientes)
         {
-
+            if (!ModelState.IsValid)
+            {
+                var imovel = _imovelService.FindAll();
+                var viewModel = new ClientesFormViewModel { Clientes = clientes, Imovels = imovel };
+                return View(clientes);
+            }
             await _clienteService.InsertAsync(clientes);
 
             return RedirectToAction(nameof(Index));
@@ -78,6 +83,8 @@ namespace ProjetoSocialSolutions.Controllers
         //// GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
+
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
@@ -98,6 +105,12 @@ namespace ProjetoSocialSolutions.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Clientes clientes)
         {
+            if (!ModelState.IsValid)
+            {
+                var imovel = _imovelService.FindAll();
+                var viewModel = new ClientesFormViewModel { Clientes= clientes, Imovels = imovel };
+                return View(clientes);
+            }
             if (id != clientes.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não correspondente" });

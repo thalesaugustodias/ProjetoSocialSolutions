@@ -16,14 +16,18 @@ namespace ProjetoSocialSolutions.Models
         [Column("Tipo")]
         public TipoImovel TipoImovel { get; set; }
 
+        [Required]
         [Display(Name = "Descrição")]
         [Column("Descricao")]
         public string Descricao { get; set; }
+
+        [Required]
         [DisplayFormat(DataFormatString="{0:F2}")]
         [Display(Name = "Valor")]
         [Column("Valor")]
         public double Valor { get; set; }
 
+        [Required]
         [Display(Name = "Status")]
         [Column("Status")]
         public StatusImovel Status { get; set; }
