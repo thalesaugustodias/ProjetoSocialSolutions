@@ -10,7 +10,6 @@ using ProjetoSocialSolutions.Models;
 using ProjetoSocialSolutions.Services;
 using ProjetoSocialSolutions.Models.ViewModel;
 using ProjetoSocialSolutions.Services.Exceptions;
-using System.Diagnostics;
 
 namespace ProjetoSocialSolutions.Controllers
 {
@@ -26,15 +25,15 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         // GET: Clientes
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _clienteService.FindAllAsync();
-            return View(list);
+            var list = await _clienteService.FindAllAsync();
+            return View(list);                      
         }
 
-        public async Task<IActionResult>  Create()
+        public async Task<IActionResult> Create()
         {
-            var imovel = await _imovelService.FindAllAsync();
+            var imovel = await _imovelService.FindAllAsync();           
             var viewModel = new ClientesFormViewModel { Imovels = imovel };
             return View(viewModel);
         }
@@ -43,28 +42,31 @@ namespace ProjetoSocialSolutions.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Clientes clientes)
         {
-            if (!ModelState.IsValid)
-            {
-                var imovel = await _imovelService.FindAllAsync();
-                var viewModel = new ClientesFormViewModel { Clientes = clientes, Imovels = imovel };
-                return View(clientes);
-            }
+
             await _clienteService.InsertAsync(clientes);
 
-            return RedirectToAction(nameof(Index));          
+            return RedirectToAction(nameof(Index));
+
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(clientes);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //return View(clientes);
         }
 
         //// GET: Clientes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task <IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+                return NotFound();
             }
             var obj = await _clienteService.FindByIdAsync(id.Value);
             if (obj == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+                return NotFound();
             }
             return View(obj);
         }
@@ -75,17 +77,15 @@ namespace ProjetoSocialSolutions.Controllers
         //// GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            
-
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+                return NotFound();
             }
 
             var obj = await _clienteService.FindByIdAsync(id.Value);
             if (obj == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+                return NotFound();
             }
             List<Imovel> imovels = await _imovelService.FindAllAsync();
             ClientesFormViewModel viewModel = new ClientesFormViewModel { Clientes = obj, Imovels = imovels };
@@ -93,65 +93,53 @@ namespace ProjetoSocialSolutions.Controllers
         }
 
         //// POST: Clientes/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Clientes clientes)
         {
-            if (!ModelState.IsValid)
-            {
-                var imovel = await _imovelService.FindAllAsync();
-                var viewModel = new ClientesFormViewModel { Clientes= clientes, Imovels = imovel };
-                return View(clientes);
-            }
             if (id != clientes.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não correspondente" });
+                return NotFound();
             }
 
             try
             {
-                 await _clienteService.UpdateAsync(clientes);
+                await _clienteService.UpdateAsync(clientes);
                 return RedirectToAction(nameof(Index));
             }
-            catch (ApplicationException e)
+            catch (NotFoundException)
             {
-                return RedirectToAction(nameof(Error), new { message = e.Message });
-
-            }            
-        }
-
-        //// GET: Clientes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+                return NotFound();
+            } catch(DbConcurrencyException)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+                return BadRequest();
             }
-            var obj = await _clienteService.FindByIdAsync(id.Value);
-            if (obj == null)
-            {
-                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
-            }
-            return View(obj);
-        }
+    }
 
-        //// POST: Clientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+    //// GET: Clientes/Delete/5
+    public async Task <IActionResult> Delete(int? id)
+    {
+        if (id == null)
         {
-            await _clienteService.RemoveAsync(id);
-            return RedirectToAction(nameof(Index));
+            return NotFound();
         }
+        var obj = await _clienteService.FindByIdAsync(id.Value);
+        if (obj == null)
+        {
+            return NotFound();
+        }
+        return View(obj);
+    }
 
-        public IActionResult Error(string message)
-        {
-            var viewModel = new ErrorViewModel
-            {
-                Message = message,
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
-            return View(viewModel);
-        }
+    //// POST: Clientes/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _clienteService.RemoveAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
     }
 }

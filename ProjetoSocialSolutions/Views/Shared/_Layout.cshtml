@@ -8,11 +8,20 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjetoSocialSolutions.styles.css" asp-append-version="true" />
 </head>
+<style>
+
+    .text-dark {
+    color: #eceeef!important;
+}
+
+</style>
+
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Clientes" asp-action="Index">ProjetoSocialSolutions</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProjetoSocialSolutions</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,7 +29,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                            <a  class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Imovels" asp-action="Index">Imovel</a>
@@ -36,11 +45,11 @@
         </main>
     </div>
 
-   @* <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - ProjetoSocialSolutions - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Thales Augusto De Lima Dias -  <a asp-area="" asp-controller="Clientes" asp-action="Index">Acesse o CRUD </a>
         </div>
-    </footer>*@
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.mask.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

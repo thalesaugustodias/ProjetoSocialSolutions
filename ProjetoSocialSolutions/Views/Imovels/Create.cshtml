@@ -3,12 +3,16 @@
 
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Adicionar Novo Imóvel";
 }
 
-<h1>Create</h1>
+<style>
+    h4 {margin-top:30px;}
 
-<h4>Imovel</h4>
+
+</style>
+
+<h4 id="Titulo">Adicionar Imóvel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,14 +41,14 @@
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 @section Scripts {

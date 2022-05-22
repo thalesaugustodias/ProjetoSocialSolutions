@@ -16,13 +16,12 @@ namespace ProjetoSocialSolutions.Services
 
         public async Task <List<Clientes>> FindAllAsync()
         {
-            return await _context.Clientes.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Clientes.Include(obj => obj.Imovel).OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task InsertAsync(Clientes obj)
-        {
-            //obj.Imovel = _context.Imovel.First();
-            _context.Add(obj);
+        {            
+           _context.Add(obj);
            await _context.SaveChangesAsync();
         }
 

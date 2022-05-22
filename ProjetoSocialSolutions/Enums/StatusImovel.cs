@@ -4,7 +4,8 @@ namespace ProjetoSocialSolutions.Enums
 {
     public enum StatusImovel
     {
-        Ativo = 0,       
-        Inativo = 1,
+       Disponível = 0,       
+       Inisponível = 1,
+        
     }
 }

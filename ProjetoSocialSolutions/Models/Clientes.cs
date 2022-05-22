@@ -24,7 +24,7 @@ namespace ProjetoSocialSolutions.Models
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mail")]
         [Column("Email")]       
         public string Email { get; set; }
 
@@ -37,8 +37,9 @@ namespace ProjetoSocialSolutions.Models
         [Column("Status")]
         public StatusClientes Status { get; set; }
 
+        
         public int ImovelId { get; set; }
-
+        [Display(Name = "Imóvel")]
         public Imovel Imovel { get; set; }
 
         public Clientes()

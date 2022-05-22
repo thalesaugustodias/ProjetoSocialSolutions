@@ -5,6 +5,10 @@
     ViewData["Title"] = "Create";
 }
 
+<style>
+    h4 {margin-top:30px;}
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
@@ -42,14 +46,14 @@
             <span asp-validation-for="Clientes.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Adicionar" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar</a>
 </div>
 
 <script>
