@@ -1,4 +1,4 @@
-# ProjetoSocialSolutions 
+# ProjetoSocialSolutions C# .NET 6 & ASP.NET MVC
 Desafio desenvolvido para avaliação de conhecimentos técnico em ASP.NET MVC.
 Tecnologias utilizadas:
 
