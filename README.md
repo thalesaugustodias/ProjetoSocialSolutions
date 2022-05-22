@@ -2,7 +2,7 @@
 Desafio desenvolvido para avaliação de conhecimentos técnico em ASP.NET MVC.
 Tecnologias utilizadas:
 
-- .NET Framework 6.0
+- .NET 6.0
 - ASP.NET MVC
 - Banco de Dados SQL Server Express 2019
 - Entity Framework Core 6
